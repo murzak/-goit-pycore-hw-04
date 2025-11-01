@@ -143,6 +143,10 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+pycore_hw4
+pycore_hw4/
+.pycore_hw4
+.pycore_hw4/
 
 # Spyder project settings
 .spyderproject
