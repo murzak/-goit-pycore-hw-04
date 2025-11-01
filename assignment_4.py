@@ -9,15 +9,6 @@ def parse_input(user_input):
     args = args[1:]
     return func, args
 
-# def parse_input(user_input):
-#     """Parse input passed by user"""
-#     parts = user_input.strip().split()
-#     if not parts:
-#         return "", []
-#     cmd = parts[0].lower()
-#     args = parts[1:]
-#     return cmd, args
-
 
 def is_valid_phone(phone):
     """
@@ -27,6 +18,7 @@ def is_valid_phone(phone):
     """
     pattern = r"^380\d{9}$"
     return bool(re.match(pattern, phone))
+
 
 def add_contact(args, contacts):
     """Add new contact into contacts dictionary"""
@@ -40,18 +32,6 @@ def add_contact(args, contacts):
         return "Contact's been added"
     return "Please provide the right phone format in the following pattern like 380997654321"
 
-    
-
-
-# def add_contact(args, contacts):
-#     """Add a new contact to our dictionary of contacts"""
-#     if len(args) != 2:
-#         return "Invalid input. Use: add [name] [phone]"
-#     name, phone = args
-#     if is_valid_phone(phone):
-#         contacts[name] = phone
-#         return "Contact added."
-#     return "Please provide the right phone format in the following pattern like 380997654321"
 
 def change_contact(args, contacts):
     """Changes contact information of a user which exists in contacts dict. 
@@ -67,19 +47,6 @@ def change_contact(args, contacts):
     return "Please provide the right phone format in the following pattern like 380997654321"
 
 
-# def change_contact(args, contacts):
-#     """Change contact information for a given user"""
-#     if len(args) != 2:
-#         return "Invalid input. Use: change [name] [new_phone]"
-#     name, new_phone = args
-#     if name in contacts and is_valid_phone(new_phone):
-#         contacts[name] = new_phone
-#         return "Contact updated."
-#     elif name not in contacts:
-#         return f"Contact '{name}' not found."
-#     return "Please provide the right phone format in the following pattern like 380997654321"
-
-
 def show_phone(args, contacts):
     """Returns a phone number of a given user if present in contacts dictionary"""
     if len(args) != 1:
@@ -88,17 +55,6 @@ def show_phone(args, contacts):
     if name in contacts.keys():
         return contacts[name]
     return f"Contact '{name}' not found"
-
-
-# def show_phone(args, contacts):
-#     """Returns a phone number of a given user if present in contacts dictionary"""
-#     if len(args) != 1:
-#         return "Invalid input. Use: phone [name]"
-#     name = args[0]
-#     if name in contacts:
-#         return contacts[name]
-#     else:
-#         return f"Contact '{name}' not found."
 
 
 def show_all(contacts):
