@@ -1,5 +1,4 @@
 import sys
-import sys
 from pathlib import Path
 from colorama import init, Fore, Style
 
@@ -18,7 +17,7 @@ def list_dir(path: Path):
     while stack:
         current_path, prefix, _ = stack.pop()
 
-        entries = list(current_path.iterdir())
+        entries = sorted(current_path.iterdir(), key=lambda e: (not e.is_dir(), e.name.lower()))
 
 
         for i, entry in enumerate(entries):
@@ -32,6 +31,8 @@ def list_dir(path: Path):
                 stack.append((entry, next_prefix, is_last))
             else:
                 print(f"{prefix}{connector} {Fore.GREEN}{icons['file']}{Style.RESET_ALL} {entry.name}")
+        
+        stack.sort(key=lambda x: x[0].name, reverse=True)
 
 
 def get_executed():

@@ -1,15 +1,15 @@
 def total_salary(path: str) -> tuple:
 
-    # Initiate starting values for salary_total and salary_average
+    # Initialize starting values for salary_total and salary_average
     salary_total = 0
     salary_average = 0
+    # Initialize counter to calculate salary_average     
+    cnt = 0
     try:
         # Open file in read mode
         with open(path, 'r') as f:
             # Read all lines in array
             lines = f.readlines()
-            # Initiate counter to calculate salary_average
-            cnt = 0
 
             # Walk through all lines in a loop
             for line in lines:
@@ -18,12 +18,15 @@ def total_salary(path: str) -> tuple:
                     cnt += 1
 
                     # Calculate salary_total
-                    salary_total += int(line.split(',')[-1])
+                    salary_total += float(line.split(',')[-1])
                 except ValueError:
                     # In case ValueError counter needs to be decreased by 1 
                     cnt -= 1
         # Recalculate salary_average
-        salary_average = salary_total / cnt 
+        try:
+            salary_average = salary_total / cnt 
+        except ZeroDivisionError:
+            print(f'Please check for denominator value. It should not be equal to zero!')
     except FileNotFoundError:
         print(f'There is no such file as {path}')
 
