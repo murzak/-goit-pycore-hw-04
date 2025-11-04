@@ -6,33 +6,30 @@ from colorama import init, Fore, Style
 init(autoreset=True)
 
 
-def list_dir(path: Path):
+def list_dir(path: Path, prefix: str = "", is_last: bool = True, is_root: bool = True):
     icons = {'root_folder': "📦",
          'other_folder': "📂",
          'file': "📜"}
     
-    print(f"{icons['root_folder']} {path.name}")
+    if is_root:
+            print(f"{icons['root_folder']} {path.name}")
 
-    stack = [(path, "", True)]  # (current_path, prefix, is_last)
-    while stack:
-        current_path, prefix, _ = stack.pop()
+    entries = list(path.iterdir())
+    folders = sorted([p for p in entries if p.is_dir()])
+    files = sorted([p for p in entries if p.is_file()])
+    entries = folders + files
 
-        entries = sorted(current_path.iterdir(), key=lambda e: (not e.is_dir(), e.name.lower()))
+    for i, entry in enumerate(entries):
+        is_last_entry = i == len(entries) - 1
+        connector = "┗" if is_last_entry else "┣"
+        next_prefix = prefix + ("  " if is_last_entry else "┃ ")
 
-
-        for i, entry in enumerate(entries):
-            is_last = i == len(entries) - 1
-            connector = "┗" if is_last else "┣"
-            next_prefix = prefix + ("  " if is_last else "┃ ")
-
-            if entry.is_dir():
-                print(f"{prefix}{connector} {Fore.BLUE}{icons['other_folder']}{Style.RESET_ALL} {entry.name}")
-                # Push this directory to the stack for further processing
-                stack.append((entry, next_prefix, is_last))
-            else:
-                print(f"{prefix}{connector} {Fore.GREEN}{icons['file']}{Style.RESET_ALL} {entry.name}")
-        
-        stack.sort(key=lambda x: x[0].name, reverse=True)
+        if entry.is_dir():
+            print(f"{prefix}{connector} {Fore.BLUE}{icons['other_folder']}{Style.RESET_ALL} {entry.name}")
+            # recursive call
+            list_dir(entry, next_prefix, is_last_entry, is_root=False)
+        else:
+            print(f"{prefix}{connector} {Fore.GREEN}{icons['file']}{Style.RESET_ALL} {entry.name}")
 
 
 def get_executed():
